@@ -68,6 +68,14 @@ if [ "$have" -eq 0 ] && n=$(size_of "$CTX") && [ -n "$n" ]; then
   fi
 fi
 
+# happier's own flag parser (apps/cli/src/backends/claude/remote/
+# sdkFlagOverrides.ts, nextValue) refuses a flag VALUE that starts with '-',
+# and the unified builder then drops `--append-system-prompt` together with
+# its value anyway, so a context opening with a markdown bullet or rule would
+# vanish silently. Only the first character is checked; a leading newline
+# defeats it and is harmless whitespace at the top of a system prompt.
+case "$text" in -*) text=$'\n'"$text" ;; esac
+
 if [ "$have" -eq 1 ] && [ -n "$text" ]; then
   exec happier --append-system-prompt "$text" "$@"
 fi

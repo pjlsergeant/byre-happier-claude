@@ -89,6 +89,6 @@ sha256 = "888a577e9105932ed6f36f37b27f80bcdff9241c625668bb75a050c3066691e3"
 [[package.files]]
 src = "happier-claude-launch.sh"
 dest = "happier-claude-launch.sh"
-sha256 = "4a65c1ec3778892dbdc2b14713ff8e753850a814926c91be228f23086205f0fe"
+sha256 = "33af79f98582d472c731e640d31c969cf8a25fa699b553f92d521f171419255b"
 executable = true
 
