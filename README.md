@@ -111,6 +111,19 @@ Claude's TUI fills the terminal and gets every key. It is installed as
 environment, so a `ZELLIJ_CONFIG_FILE` set in `[env]` would never reach it.
 To get zellij's UI back, replace that link in the box with your own config.
 
+**Shift-Enter.** The config also turns off zellij's kitty keyboard protocol
+support. With it on, zellij re-encodes every key for a pane that enabled the
+protocol, which Claude does, and that turns iTerm2's Shift-Enter (a line feed)
+and tmux's default extended-keys form into a plain Enter, so Claude submits
+instead of inserting a newline. With it off, zellij passes key bytes through
+unchanged, and Shift-Enter behaves exactly as it does with plain Claude in the
+same terminal chain. The one cost: a kitty-native terminal (kitty, Ghostty,
+WezTerm) used directly, without tmux in between, no longer gets the kitty
+protocol pushed to it, so its Shift-Enter arrives as plain Enter; bind the key
+in the terminal to send a newline, or replace the `~/.config/zellij/config.kdl`
+link with a config that leaves the option on. Ctrl-J inserts a newline in
+every setup.
+
 ## Environment: what Claude sees
 
 byre's contract is that the box's environment is the agent's environment:

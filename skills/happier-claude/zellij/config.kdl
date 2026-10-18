@@ -8,6 +8,11 @@ simplified_ui true
 show_startup_tips false
 show_release_notes false
 session_serialization false
+// zellij's kitty keyboard support makes it re-encode keys for a pane that enabled the
+// protocol (Claude does), turning iTerm2's Shift-Enter line feed and tmux's xterm-form
+// Shift-Enter into a plain Enter. Off, zellij passes key bytes through unchanged. Cost: a
+// kitty-native terminal used without tmux gets no kitty push; bind Shift-Enter to send a newline.
+support_kitty_keyboard_protocol false
 layout_dir "/etc/zellij/layouts"
 default_layout "plain"
 // Claude Code uses Ctrl-O/Ctrl-T/Ctrl-G etc.; zellij's defaults would intercept them.
