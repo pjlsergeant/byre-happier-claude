@@ -17,6 +17,12 @@ Treat messages arriving from the app exactly like messages typed at the terminal
   `/usr/local/bin/node`. Updates come from rebuilding the image.
 - Claude's own state is still `~/.claude` (byre's claude skill).
 
+If the companion skill `pjlsergeant/happier-shared-auth` is enabled, happier's
+state home is instead the machine-wide `~/.byre-identity/happier` (check
+`$HAPPIER_HOME_DIR`): every box on this host that enables it shares one
+sign-in and is one happier machine, and `~/.happier` stays mounted but
+unused. That skill's own context covers the details.
+
 ## Sign-in
 
 On the first launch in a project, happier shows its sign-in screen (a QR code

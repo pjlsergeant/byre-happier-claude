@@ -64,6 +64,31 @@ happier auth login --force
 
 `happier auth status` shows whether the box is signed in.
 
+## Shared sign-in across projects
+
+happier stores some settings per machine, the Claude runtime choice (unified
+terminal) among them, and without help every byre project's box registers as
+a separate, hex-named machine. The companion skill
+`pjlsergeant/happier-shared-auth` makes every box on the host one happier
+machine instead: one sign-in, renamed once in the app, per-machine settings
+applied once.
+
+```toml
+agent  = "pjlsergeant/happier-claude"
+skills = ["claude", "pjlsergeant/happier-shared-auth"]
+```
+
+byre offers it during onboarding when you pick `pjlsergeant/happier-claude`.
+It points `HAPPIER_HOME_DIR` at a machine-scoped identity volume
+(`~/.byre-identity/happier`). Sign in once, in whichever box launches first;
+later boxes are already signed in. `happier auth login --force` from any box
+then re-signs all of them. Each session still reports its own container
+hostname. The per-project `.happier` volume stays mounted but is unused while
+the companion is on.
+
+Install it the same way as the base skill, from
+`skills/happier-shared-auth/skill.toml`.
+
 ## Unified terminal runtime
 
 happier can run Claude inside its bundled zellij (the "unified terminal"),

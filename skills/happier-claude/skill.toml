@@ -84,7 +84,7 @@ target = "/home/dev/.happier"
 [[package.files]]
 src = "context.md"
 dest = "context.md"
-sha256 = "888a577e9105932ed6f36f37b27f80bcdff9241c625668bb75a050c3066691e3"
+sha256 = "eb8afea16705f95550a33516612f7ce31c9c9f8808bbb056860fa87084a76353"
 
 [[package.files]]
 src = "happier-claude-launch.sh"
