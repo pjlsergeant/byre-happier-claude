@@ -3,7 +3,7 @@
 This Claude Code session was launched through **happier** (`happier --yolo ...`),
 which mirrors it to the user's happier app (phone or browser) over a relay, so
 the user can read along and reply from there. When the user has turned on the
-unified terminal runtime in their happier account, the session runs inside
+unified terminal runtime for this happier machine, the session runs inside
 happier's bundled zellij; otherwise happier uses its default Claude runtime.
 Treat messages arriving from the app exactly like messages typed at the terminal.
 
@@ -38,9 +38,10 @@ from `byre shell`. Never try to sign in on the user's behalf.
   user set `HAPPIER_SERVER_URL` / `HAPPIER_WEBAPP_URL` in the project's `[env]`.
 - This iteration assumes no byre firewall skill; with one, the relay hosts are
   declared as egress but a self-hosted relay must be added by the user.
-- The unified terminal is an account setting in the happier app
-  (Settings -> AI backends -> Claude Code -> Use unified terminal runtime);
-  there is no CLI or env switch for it.
+- The unified terminal is a per-machine setting in the happier app
+  (Settings -> AI backends -> Claude Code -> Use unified terminal runtime),
+  set once per happier machine; with `pjlsergeant/happier-shared-auth` that
+  means once for every box on this host. There is no CLI or env switch for it.
 
 ## How this context reached you
 

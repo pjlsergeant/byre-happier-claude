@@ -92,10 +92,14 @@ Install it the same way as the base skill, from
 ## Unified terminal runtime
 
 happier can run Claude inside its bundled zellij (the "unified terminal"),
-which mirrors the real Claude TUI. That is an account setting, not something
-this skill can switch on: in the happier app, Settings -> AI backends ->
-Claude Code -> Use unified terminal runtime. The skill also works with
-happier's default runtime.
+which mirrors the real Claude TUI. That is a per-machine setting in the
+happier app, not something this skill can switch on: Settings -> AI backends
+-> Claude Code -> Use unified terminal runtime. It is set once per happier
+machine; without the shared-auth companion each project's box is its own
+machine, and with it the setting applies once for every box on the host.
+The setting is gated by a server feature flag (fail-closed), so the toggle
+may be absent on some relays. The skill also works with happier's default
+runtime.
 
 ## Assumptions and limits in this version
 
