@@ -67,7 +67,11 @@ dockerfile = [
 # there is no browser in the box; sign-in shows a QR code and URL instead.
 # HAPPIER_CLI_UPDATE_CHECK=0: the image is the update unit (rebuild to update).
 # HAPPIER_SESSION_AUTOSTART_DAEMON=0: no daemon in this version (no remote start).
-env = { HAPPIER_HOME_DIR = "/home/dev/.happier", HAPPIER_INSTALL_DIR = "/home/dev/.happier-cli", HAPPIER_JS_RUNTIME_PATH = "/usr/local/bin/node", HAPPIER_NO_BROWSER_OPEN = "1", HAPPIER_CLI_UPDATE_CHECK = "0", HAPPIER_SESSION_AUTOSTART_DAEMON = "0" }
+# HAPPIER_CLAUDE_UNIFIED_TERMINAL_HOST_LIVENESS_POLL_MS=1000: happier notices
+# Claude's exit only by polling zellij (default every 30 s plus jitter, so
+# hang-up took up to ~36 s). 1000 is the knob's floor; the cost is one short
+# `zellij action list-panes` spawn per second.
+env = { HAPPIER_HOME_DIR = "/home/dev/.happier", HAPPIER_INSTALL_DIR = "/home/dev/.happier-cli", HAPPIER_JS_RUNTIME_PATH = "/usr/local/bin/node", HAPPIER_NO_BROWSER_OPEN = "1", HAPPIER_CLI_UPDATE_CHECK = "0", HAPPIER_SESSION_AUTOSTART_DAEMON = "0", HAPPIER_CLAUDE_UNIFIED_TERMINAL_HOST_LIVENESS_POLL_MS = "1000" }
 env_docs = { HAPPIER_SERVER_URL = "Self-hosted relay URL (default https://api.happier.dev). Add its host to egress yourself.", HAPPIER_WEBAPP_URL = "Web app URL for sign-in links (default https://cloud.happier.dev)." }
 # Hosted relay and web app. Build-time downloads (nodejs.org, happier.dev,
 # GitHub releases) happen outside the box's runtime firewall.

@@ -124,6 +124,15 @@ in the terminal to send a newline, or replace the `~/.config/zellij/config.kdl`
 link with a config that leaves the option on. Ctrl-J inserts a newline in
 every setup.
 
+**Hang-up.** happier learns that Claude has exited only by polling zellij for
+the pane's state, every 30 s by default plus up to 5 s of jitter, so a box
+used to sit for up to ~36 s after Claude's goodbye before the container
+stopped. The skill sets `HAPPIER_CLAUDE_UNIFIED_TERMINAL_HOST_LIVENESS_POLL_MS`
+to 1000, the fastest happier allows, so hang-up now takes about a second. The
+cost is one small zellij client process per second while the session runs. A
+project can override the value in its own `[env]` (allowed range 1000 to
+30000).
+
 ## Environment: what Claude sees
 
 byre's contract is that the box's environment is the agent's environment:
