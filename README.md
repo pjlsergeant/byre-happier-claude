@@ -103,6 +103,42 @@ The setting is gated by a server feature flag (fail-closed), so the toggle
 may be absent on some relays. The skill also works with happier's default
 runtime.
 
+## Environment: what Claude sees
+
+byre's contract is that the box's environment is the agent's environment:
+`BYRE_*` variables, the project's `[env]` and credentials, and anything the
+skills' env hooks export. happier, though, filters the environment of the
+Claude process it starts down to an allowlist (`PATH`, `HOME`, `TERM`,
+`CLAUDE_*`, `ANTHROPIC_*`, `XDG_*` and a few more). Without help, Claude
+under happier would lose everything else, including `HAPPIER_HOME_DIR`, so
+`happier` commands run inside the session would use the wrong state home.
+
+The launch wrapper restores parity: before starting happier it lists the name
+of every variable it holds (except `_`, `SHLVL`, `PWD`, `OLDPWD`) in
+`HAPPIER_SPAWN_EXPLICIT_ENV_KEYS_JSON`, the list of names happier lets through
+to Claude. Caveats:
+
+- **Under the unified terminal, values briefly touch disk.** happier writes
+  the Claude process's environment to a `0600` temp file
+  (`$TMPDIR/happier-terminal-launch-*/launch.json`) for the seconds between
+  starting the terminal pane and the pane reading and deleting it. Only names
+  that look secret are kept out of the file and passed directly:
+
+  ```
+  /(^ANTHROPIC_|^CLAUDE_CODE_|(^|_)(TOKEN|SECRET|PASSWORD|PRIVATE_KEY|API_KEY|AUTHORIZATION|BEARER|CREDENTIAL)(_|$))/i
+  ```
+
+  To keep a credential off disk, give it a name with a `_TOKEN`, `_SECRET`,
+  `_API_KEY`, `_PASSWORD` or `_CREDENTIAL` segment. `PROK_AUTHTOKEN` and
+  `SOMETHING_DEVELOPER_KEY`, for example, do not match.
+- **Don't link a Claude "connected service" in happier for this machine.**
+  With one selected, happier strips Claude's auth environment (such as
+  `CLAUDE_CODE_OAUTH_TOKEN`) whatever this list says.
+- **The variable is a happier internal**, not a documented interface. This
+  repo's tests pin its behaviour; a happier release could change it. See
+  [docs/upstream-happier-env-passthrough.md](docs/upstream-happier-env-passthrough.md)
+  for the change proposed to happier.
+
 ## Assumptions and limits in this version
 
 - **No firewall skill.** The relay hosts (`api.happier.dev`,
