@@ -5,6 +5,8 @@ which mirrors it to the user's happier app (phone or browser) over a relay, so
 the user can read along and reply from there. When the user has turned on the
 unified terminal runtime for this happier machine, the session runs inside
 happier's bundled zellij; otherwise happier uses its default Claude runtime.
+zellij is configured to be invisible (no bars, frames or keybindings; see
+`/etc/zellij/config.kdl`), so do not expect or suggest zellij key shortcuts.
 Treat messages arriving from the app exactly like messages typed at the terminal.
 
 ## Where things live

@@ -6,15 +6,24 @@
 
 [package]
 id = "pjlsergeant/happier-claude"
-version = "0.2.0"
+version = "0.3.0"
 kind = "skill"
 package_api = 1
 requires_byre = ">=1.3.0"
 description = "Claude Code inside happier (requires skills = [\"claude\"]): installs happier, signs in per project, mirrors the session to your phone."
 
 [build]
+# zellij/: the unified terminal's bundled zellij is transport, not UI. happier
+# passes zellij no --config/--layout and starts it with a minimal environment
+# (apps/cli/src/integrations/zellij/actions.ts buildZellijProcessEnv keeps only
+# PATH, HOME, USER, LOGNAME, SHELL, TMPDIR...), so ZELLIJ_CONFIG_FILE or
+# ZELLIJ_CONFIG_DIR in the box env never reach it. So the config goes to
+# zellij's system dir /etc/zellij AND is symlinked as the dev user's own
+# ~/.config/zellij/config.kdl: with no home config, zellij 0.44 runs its
+# First Run Setup Wizard, which writes a full DEFAULT config there and live-
+# reloads it (frames and keybindings back). Verified on the VM, 2026-10-18.
 apt = ["curl", "ca-certificates", "xz-utils"]
-files = { "happier-claude-launch.sh" = "/usr/local/bin/byre-happier-claude-launch" }
+files = { "happier-claude-launch.sh" = "/usr/local/bin/byre-happier-claude-launch", "zellij/config.kdl" = "/etc/zellij/config.kdl", "zellij/layouts/plain.kdl" = "/etc/zellij/layouts/plain.kdl" }
 dockerfile = [
   # Node LTS for happier's Claude runtime. The standalone happier binary would
   # otherwise download "latest LTS" into $HAPPIER_HOME_DIR/tools at the first
@@ -45,6 +54,9 @@ dockerfile = [
   # ~/.happier is the state volume's mount point: anything the installer left
   # there would seed every fresh volume. Remove it so the volume starts empty.
   "RUN rm -rf /home/dev/.happier",
+  # Home zellij config -> the shipped one (see the zellij/ note above). dev-owned
+  # dirs, so the user can replace the link with their own config.
+  "RUN gosu dev sh -c 'mkdir -p /home/dev/.config/zellij && ln -sf /etc/zellij/config.kdl /home/dev/.config/zellij/config.kdl'",
 ]
 
 [runtime]
@@ -84,11 +96,21 @@ target = "/home/dev/.happier"
 [[package.files]]
 src = "context.md"
 dest = "context.md"
-sha256 = "4994cff0f756c5bf08adf8680e71fe3cc5d6a35d6cd5016344561d8f4bade8fc"
+sha256 = "49d276540be83ccfb659a346078be1c28c619dc4108219f9101dab3ea873611a"
 
 [[package.files]]
 src = "happier-claude-launch.sh"
 dest = "happier-claude-launch.sh"
 sha256 = "0732a4432b2580484ea8902dd692192f9a3e211a3038a7ff794109bbd165a721"
 executable = true
+
+[[package.files]]
+src = "zellij/config.kdl"
+dest = "zellij/config.kdl"
+sha256 = "89ac224ec67ee4ea7735dd5e2ad9e949615365b039c4d8098075ce412c08bffe"
+
+[[package.files]]
+src = "zellij/layouts/plain.kdl"
+dest = "zellij/layouts/plain.kdl"
+sha256 = "04228380a26b677ed5329eb9723a00c9262f483c9d6399312ef30416c83b2711"
 

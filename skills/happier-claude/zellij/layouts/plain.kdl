@@ -1,0 +1,4 @@
+// byre happier-claude: one pane, no tab-bar/status-bar/compact-bar plugins.
+layout {
+    pane
+}

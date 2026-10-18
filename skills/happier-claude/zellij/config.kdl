@@ -1,0 +1,16 @@
+// byre happier-claude: zellij is a transport for happier's unified terminal, not a UI the
+// user drives. No bars, no frames, no tips, no keybindings that could swallow Claude's keys.
+// Installed as /etc/zellij/config.kdl and symlinked from ~/.config/zellij/config.kdl:
+// happier passes no --config and strips ZELLIJ_* env, and without a home config zellij's
+// first-run wizard would write a default one there. Replace the link to get zellij's UI back.
+pane_frames false
+simplified_ui true
+show_startup_tips false
+show_release_notes false
+session_serialization false
+layout_dir "/etc/zellij/layouts"
+default_layout "plain"
+// Claude Code uses Ctrl-O/Ctrl-T/Ctrl-G etc.; zellij's defaults would intercept them.
+// The user never operates zellij here (happier controls it via `zellij action`), so bind nothing.
+keybinds clear-defaults=true {
+}
