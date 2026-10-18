@@ -25,12 +25,11 @@ layers on `codex`. The `claude` skill still supplies the Claude binary, its
 ## Install
 
 ```
-byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/<tag>/skills/happier-claude/skill.toml --digest sha256:<digest>
+byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.1.0/skills/happier-claude/skill.toml --digest sha256:bbfc69ef76fabe4903fbefffbc614a98a2f219e31897d1e0adf868213f78125b
 ```
 
-(The tag and digest are filled in at release time. `byre skill pack` prints
-the digest. To try it from a checkout, run
-`byre skill install skills/happier-claude/skill.toml`.)
+To try it from a checkout instead, run
+`byre skill install skills/happier-claude/skill.toml`.
 
 Then in the project's `byre.config`:
 
@@ -86,8 +85,11 @@ then re-signs all of them. Each session still reports its own container
 hostname. The per-project `.happier` volume stays mounted but is unused while
 the companion is on.
 
-Install it the same way as the base skill, from
-`skills/happier-shared-auth/skill.toml`.
+Install it with:
+
+```
+byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.1.0/skills/happier-shared-auth/skill.toml --digest sha256:e7bcc17ec69486adc2ed0420d8039af8d0fdd5404e30cf0552c4dd7073e3d9e5
+```
 
 ## Unified terminal runtime
 
