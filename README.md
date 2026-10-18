@@ -25,7 +25,7 @@ layers on `codex`. The `claude` skill still supplies the Claude binary, its
 ## Install
 
 ```
-byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.1.0/skills/happier-claude/skill.toml --digest sha256:bbfc69ef76fabe4903fbefffbc614a98a2f219e31897d1e0adf868213f78125b
+byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.2.0/skills/happier-claude/skill.toml --digest sha256:ff47ee7254c28beac0c0ad0bba07b40df4217e9813bfeb69f06afb2ef585f4b3
 ```
 
 To try it from a checkout instead, run
@@ -88,7 +88,7 @@ the companion is on.
 Install it with:
 
 ```
-byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.1.0/skills/happier-shared-auth/skill.toml --digest sha256:e7bcc17ec69486adc2ed0420d8039af8d0fdd5404e30cf0552c4dd7073e3d9e5
+byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.2.0/skills/happier-shared-auth/skill.toml --digest sha256:e7bcc17ec69486adc2ed0420d8039af8d0fdd5404e30cf0552c4dd7073e3d9e5
 ```
 
 ## Unified terminal runtime
