@@ -23,6 +23,16 @@ state home is instead the machine-wide `~/.byre-identity/happier` (check
 sign-in and is one happier machine, and `~/.happier` stays mounted but
 unused. That skill's own context covers the details.
 
+## Environment
+
+The environment you see is the box's environment, forwarded through happier
+(the launcher lists every variable name in happier's
+`HAPPIER_SPAWN_EXPLICIT_ENV_KEYS_JSON`, which happier otherwise filters down to
+an allowlist). The `HAPPIER_*` variables are present, so `happier` commands you
+run use the right state home. Under the unified terminal, happier briefly
+writes non-secret-looking variables to a 0600 temp file that it deletes as
+soon as the session starts.
+
 ## Sign-in
 
 On the first launch in a project, happier shows its sign-in screen (a QR code

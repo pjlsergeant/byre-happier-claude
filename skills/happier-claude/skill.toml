@@ -6,7 +6,7 @@
 
 [package]
 id = "pjlsergeant/happier-claude"
-version = "0.1.0"
+version = "0.2.0"
 kind = "skill"
 package_api = 1
 requires_byre = ">=1.3.0"
@@ -84,11 +84,11 @@ target = "/home/dev/.happier"
 [[package.files]]
 src = "context.md"
 dest = "context.md"
-sha256 = "8dac113ec9644a04b175f2d258c2cbca042afa8b9230d38c0ae5f720032f3dfd"
+sha256 = "4994cff0f756c5bf08adf8680e71fe3cc5d6a35d6cd5016344561d8f4bade8fc"
 
 [[package.files]]
 src = "happier-claude-launch.sh"
 dest = "happier-claude-launch.sh"
-sha256 = "33af79f98582d472c731e640d31c969cf8a25fa699b553f92d521f171419255b"
+sha256 = "0732a4432b2580484ea8902dd692192f9a3e211a3038a7ff794109bbd165a721"
 executable = true
 

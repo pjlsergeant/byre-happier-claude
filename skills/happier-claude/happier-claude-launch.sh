@@ -76,6 +76,44 @@ fi
 # defeats it and is harmless whitespace at the top of a system prompt.
 case "$text" in -*) text=$'\n'"$text" ;; esac
 
+# Environment parity. byre's contract is that the box environment IS the
+# agent's environment, but happier filters the Claude child: its
+# buildClaudeSubprocessEnv (apps/cli/src/backends/claude/spawn/) keeps an
+# allowlist (PATH, HOME, TERM, CLAUDE_*, ANTHROPIC_*, XDG_*, ...) and drops
+# everything else -- BYRE_*, HAPPIER_HOME_DIR, project credentials, env.d
+# exports. It also admits any name listed in HAPPIER_SPAWN_EXPLICIT_ENV_KEYS_JSON
+# (a JSON array of names read from happier's OWN environment, parsed by
+# src/daemon/spawn/spawnExplicitEnvKeysMarker.ts, deleted from the child env).
+# That marker is a happier-internal daemon mechanism, not a documented
+# interface; our wrapper tests pin the behaviour. So list every exported name
+# except the shell's own bookkeeping (_, SHLVL, PWD, OLDPWD) and the marker.
+# Names outside [A-Za-z_][A-Za-z0-9_]* are skipped (happier would drop them
+# too), which also makes plain quoting a valid JSON encoding.
+#
+# Caveats, documented in README and context.md:
+# - Unified terminal: happier writes the child env to a 0600 launch spec
+#   (mkdtemp under $TMPDIR, happier-terminal-launch-*/launch.json) that the
+#   in-pane runner deletes right after reading. Only names matching
+#   /(^ANTHROPIC_|^CLAUDE_CODE_|(^|_)(TOKEN|SECRET|PASSWORD|PRIVATE_KEY|API_KEY|
+#   AUTHORIZATION|BEARER|CREDENTIAL)(_|$))/i stay off disk (passed live), so a
+#   forwarded credential with any other name sits on disk for those seconds.
+# - A Claude "connected service" selected in happier makes happier strip
+#   Claude's auth env (isolateClaudeRuntimeAuthEnv) whatever this list says.
+keys=""
+for k in $(compgen -e); do
+  case "$k" in
+    _ | SHLVL | PWD | OLDPWD | HAPPIER_SPAWN_EXPLICIT_ENV_KEYS_JSON) continue ;;
+  esac
+  [[ "$k" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+  keys="$keys${keys:+,}\"$k\""
+done
+unset HAPPIER_SPAWN_EXPLICIT_ENV_KEYS_JSON
+if [ "${#keys}" -le "$LIMIT" ]; then
+  export HAPPIER_SPAWN_EXPLICIT_ENV_KEYS_JSON="[$keys]"
+else
+  echo "byre-happier-claude-launch: env name list is ${#keys} bytes (> $LIMIT); not forwarding the box environment to Claude" >&2
+fi
+
 if [ "$have" -eq 1 ] && [ -n "$text" ]; then
   exec happier --append-system-prompt "$text" "$@"
 fi
