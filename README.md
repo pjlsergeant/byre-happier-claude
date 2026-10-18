@@ -25,7 +25,7 @@ layers on `codex`. The `claude` skill still supplies the Claude binary, its
 ## Install
 
 ```
-byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.2.0/skills/happier-claude/skill.toml --digest sha256:ff47ee7254c28beac0c0ad0bba07b40df4217e9813bfeb69f06afb2ef585f4b3
+byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.3.0/skills/happier-claude/skill.toml --digest sha256:fb5c54e5d34fd0089de869404aa9d5a7ef7403b3b866c7f6be8e4ce816503a19
 ```
 
 To try it from a checkout instead, run
@@ -88,7 +88,7 @@ the companion is on.
 Install it with:
 
 ```
-byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.2.0/skills/happier-shared-auth/skill.toml --digest sha256:e7bcc17ec69486adc2ed0420d8039af8d0fdd5404e30cf0552c4dd7073e3d9e5
+byre skill install https://raw.githubusercontent.com/pjlsergeant/byre-happier-claude/v0.3.0/skills/happier-shared-auth/skill.toml --digest sha256:e7bcc17ec69486adc2ed0420d8039af8d0fdd5404e30cf0552c4dd7073e3d9e5
 ```
 
 ## Unified terminal runtime
@@ -102,6 +102,14 @@ machine, and with it the setting applies once for every box on the host.
 The setting is gated by a server feature flag (fail-closed), so the toggle
 may be absent on some relays. The skill also works with happier's default
 runtime.
+
+zellij is only the transport here: a config shipped with the skill turns off
+its tab and status bars, pane frames, startup tips and all its keybindings, so
+Claude's TUI fills the terminal and gets every key. It is installed as
+`/etc/zellij/config.kdl` (with `layouts/plain.kdl`) and linked from
+`~/.config/zellij/config.kdl`, because happier starts zellij with a minimal
+environment, so a `ZELLIJ_CONFIG_FILE` set in `[env]` would never reach it.
+To get zellij's UI back, replace that link in the box with your own config.
 
 ## Environment: what Claude sees
 
